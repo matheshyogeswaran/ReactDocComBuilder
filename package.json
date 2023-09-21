@@ -2,8 +2,9 @@
   "name": "ReactDocBuilder",
   "displayName": "ReactDocBuilder",
   "publisher": "Mathesh",
-  "description": "ReactDocGen is a powerful tool for React developers who want to streamline their documentation process. With ReactDocGen, you can effortlessly generate comprehensive documentation for your React components and projects right within Visual Studio Code.",
-  "version": "0.0.1",
+  "description": "ReactDocBuilder is a powerful tool for React developers who want to streamline their documentation process. With ReactDocGen, you can effortlessly generate comprehensive documentation for your React components and projects right within Visual Studio Code.",
+  "version": "0.0.2",
+  "icon": "Logo.png",
   "engines": {
     "vscode": "^1.82.0"
   },
