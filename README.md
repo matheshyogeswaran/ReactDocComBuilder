@@ -1,6 +1,7 @@
 # ReactDocBuilder
 
-This is a VS Code extension that automatically generates documentation for React code.
+This is a VS Code extension that automatically generates documentation comments for React code.
+
 
 ## Features
 
