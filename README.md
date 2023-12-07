@@ -12,7 +12,6 @@ This is a VS Code extension that automatically generates documentation comments 
 ## Requirements
 
 * Visual Studio Code
-* The `react-docgen` package
 
 ## Extension Settings
 
@@ -48,7 +47,7 @@ You can author your README using Visual Studio Code.  Here are some useful edit
 To generate documentation for a React component, follow these steps:
 
 1. Open the React component file.
-2. Run the `ReactDocBuilder.generateDocumentation` command from the Command Palette (Ctrl/Cmd+Shift+P).
+2. Run the `React-documentation.insertReactComment` command from the Command Palette (Ctrl/Cmd+Shift+P).
 3. A Markdown preview of the documentation for the component will be displayed in a new window.
 4. Review the documentation and make any necessary changes.
 5. To export the documentation to a Markdown file, click the **Export** button in the top-right corner of the preview window.
