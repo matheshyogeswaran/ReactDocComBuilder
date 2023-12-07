@@ -40,7 +40,7 @@ You can author your README using Visual Studio Code.  Here are some useful edit
 * [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
 * [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
 
-**Enjoy!**
+
 
 ## How to use
 
@@ -51,3 +51,11 @@ To generate documentation for a React component, follow these steps:
 3. A Markdown preview of the documentation for the component will be displayed in a new window.
 4. Review the documentation and make any necessary changes.
 5. To export the documentation to a Markdown file, click the **Export** button in the top-right corner of the preview window.
+
+## Video Tutorial
+
+Learn how to use ReactDocBuilder with our step-by-step video tutorial:
+
+![ReactDocBuilder Demo](./react-des.gif)
+
+**Enjoy!**

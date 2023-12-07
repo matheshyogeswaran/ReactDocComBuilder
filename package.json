@@ -3,7 +3,7 @@
   "displayName": "ReactDocComBuilder",
   "publisher": "Mathesh",
   "description": "ReactDocComBuilder is a powerful tool for React developers who want to streamline their documentation process. With ReactDocComBuilder, you can effortlessly generate comprehensive documentation for your React components and projects right within Visual Studio Code.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "icon": "Logo.png",
   "engines": {
     "vscode": "^1.82.0"
