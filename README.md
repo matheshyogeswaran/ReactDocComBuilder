@@ -56,6 +56,6 @@ To generate documentation for a React component, follow these steps:
 
 Learn how to use ReactDocBuilder with our step-by-step video tutorial:
 
-![ReactDocBuilder Demo](./react-des.gif)
+[![Watch the tutorial](https://youtu.be/d6_e6-wxZvw)](https://youtu.be/d6_e6-wxZvw)
 
 **Enjoy!**
