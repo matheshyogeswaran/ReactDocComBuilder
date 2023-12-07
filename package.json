@@ -16,8 +16,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "ReactDocBuilder.helloWorld",
-        "title": "Hello World"
+        "command": "React-documentation.insertReactComment",
+        "title": "React-documentation.insertReactComment"
       }
     ]
   },
@@ -37,7 +37,6 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
-    "react-docgen": "^6.0.4",
     "vsce": "^2.15.0"
   }
 }

@@ -1,51 +1,117 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 const vscode = require('vscode');
-const reactDocgen = require('react-docgen');
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
-
-/**
- * @param {vscode.ExtensionContext} context
- */
 function activate(context) {
+	console.log('Congratulations, your extension "React-documentation" is now active!');
 
-    // Use the console to output diagnostic information (console.log) and errors (console.error)
-    // This line of code will only be executed once when your extension is activated
-    console.log('Congratulations, your extension "ReactDocBuilder" is now active!');
+	let disposable = vscode.commands.registerCommand('React-documentation.insertReactComment', function () {
+		const editor = vscode.window.activeTextEditor;
 
-    // Register a command to generate documentation for the current component.
-    context.subscriptions.push(
-        vscode.commands.registerCommand("ReactDocBuilder.generateDocumentation", async () => {
-            // Get the active text editor.
-            const editor = vscode.window.activeTextEditor;
+		if (editor) {
+			const selection = editor.selection;
+			const position = selection.isEmpty ? selection.active : selection.start;
 
-            // If the active editor is not empty, generate documentation for the component.
-            if (editor) {
-                const componentName = editor.document.fileName.split("/").pop();
-                const componentCode = editor.document.getText();
+			// Get the current line content
+			const lineContent = editor.document.lineAt(position.line).text.trim();
 
-                // Generate documentation for the component.
-                const documentation = reactDocgen(componentCode);
+			// Check if the current line is a React component definition
+			if (isReactComponent(lineContent)) {
+				try {
+					// Parse the component name
+					const componentName = getComponentName(lineContent);
 
-                // Create a new Markdown document with the generated documentation.
-                const markdownDocument = await vscode.workspace.openTextDocument({
-                    language: "markdown",
-                    content: documentation,
-                });
+					// Get the props from the component definition
+					const props = getPropsFromComponent(editor, position.line);
 
-                // Display the Markdown document.
-                await vscode.window.showTextDocument(markdownDocument);
-            }
-        })
-    );
+					// Generate a comment with component name and props
+					const comment = generateComment(componentName, props);
+
+					// Insert the generated comment at the cursor position
+					editor.edit(editBuilder => {
+						editBuilder.insert(position, `/**\n${comment}\n*/\n`);
+					});
+
+					vscode.window.showInformationMessage('React comment generated successfully!');
+				} catch (error) {
+					console.error('Error generating React comment:', error);
+					vscode.window.showErrorMessage('Error generating React comment. See output for details.');
+				}
+			} else {
+				vscode.window.showInformationMessage('No React component found at the cursor.');
+			}
+		}
+	});
+
+	context.subscriptions.push(disposable);
 }
 
-// This method is called when your extension is deactivated
-function deactivate() {}
+function deactivate() { }
+
+function isReactComponent(lineContent) {
+	// Check if the line defines a React component (function component)
+	return lineContent.startsWith('function') || lineContent.startsWith('const');
+}
+
+function getComponentName(lineContent) {
+	// Extract the component name from the function or const definition line
+	const match = lineContent.match(/(?:function|const)\s+(\w+)/);
+	return match ? match[1] : null;
+}
+
+function getPropsFromComponent(editor, line) {
+	// Extract props from within the component definition
+	const endLine = editor.document.lineCount - 1;
+
+	let props = {};
+	for (let currentLine = line + 1; currentLine < endLine; currentLine++) {
+		const lineText = editor.document.lineAt(currentLine).text.trim();
+
+		// Check for the end of the component definition
+		if (lineText.startsWith('}') || lineText.startsWith('return') || lineText.startsWith('const')) {
+			break;
+		}
+
+		// Check for prop declarations in destructuring
+		const propMatch = lineText.match(/\{([^}]+)\}/);
+		if (propMatch) {
+			const propList = propMatch[1].split(',').map(prop => prop.trim());
+			propList.forEach(prop => {
+				const [propName] = prop.split(':');
+				props[propName] = { type: 'undefined' }; // You may need to improve type detection
+			});
+		}
+
+		// Check for prop declarations in function arguments
+		const funcArgsMatch = lineText.match(/\(([^)]+)\)/);
+		if (funcArgsMatch) {
+			const argList = funcArgsMatch[1].split(',').map(arg => arg.trim());
+			argList.forEach(arg => {
+				const [argName] = arg.split(':');
+				props[argName] = { type: 'undefined' }; // You may need to improve type detection
+			});
+		}
+	}
+
+	return props;
+}
+
+function generateComment(componentName, props) {
+	if (!componentName) {
+		return 'No component name found.';
+	}
+
+	if (Object.keys(props).length === 0) {
+		return ` * @component ${componentName}\n * No props found for this component.`;
+	}
+
+	const commentLines = Object.keys(props).map(propName => {
+		const propInfo = props[propName];
+		return ` * @prop ${propName} (${propInfo.type})`;
+	});
+
+	return ` * @component ${componentName}\n${commentLines.join('\n')}`;
+}
 
 module.exports = {
-    activate,
-    deactivate
-}
+	activate,
+	deactivate
+};
